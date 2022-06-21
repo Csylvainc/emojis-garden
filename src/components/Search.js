@@ -5,7 +5,9 @@ import Pagination from "./Pagination";
 const Search = ({ handleChange, search, setSearch, currentPage, emojiPerPage, setCurrentPage }) => {
     const indexOfLastEmoji = currentPage * emojiPerPage;
     const indexOfFirstEmoji = indexOfLastEmoji - emojiPerPage;
-    const currentEmoji = dataEmojis.slice(indexOfFirstEmoji, indexOfLastEmoji);
+    setSearch(search.toLowerCase());
+    let emojisSearch = dataEmojis.filter(emoji => emoji.keywords.includes(search))
+    const currentEmoji = emojisSearch.slice(indexOfFirstEmoji, indexOfLastEmoji);
 
 const Paginate = (pageNumber) =>{
     setCurrentPage(pageNumber)
@@ -16,8 +18,7 @@ const Paginate = (pageNumber) =>{
             <input type="text" placeholder="🔎 recherche..." onChange={handleChange} />
             <ul className="Liste">
                 {currentEmoji.map((emoji, index) => {
-                    setSearch(search.toLowerCase());
-                    if (emoji.keywords.includes(search)) {
+                    if (emoji.keywords.indexOf(search) !== -1) {
                         return (
                             <Liste
                                 key={index}
